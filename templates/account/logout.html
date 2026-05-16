@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Cerrar Sesión - GymPro{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center text-center">
+    <div class="col-md-5">
+        <div class="card p-5 border-0 bg-dark shadow">
+            <div class="card-body">
+                <i class="fas fa-sign-out-alt fa-4x mb-4" style="color: #003366;"></i>
+                <h2 class="fw-bold text-light">¿Cerrar Sesión?</h2>
+                <p class="text-secondary mb-4">¿Estás seguro de que quieres salir de tu cuenta?</p>
+                
+                <form method="post" action="{% url 'account_logout' %}">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger btn-lg">Sí, cerrar sesión</button>
+                        <a href="{% url 'users:dashboard' %}" class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

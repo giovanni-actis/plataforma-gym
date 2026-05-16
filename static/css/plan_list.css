@@ -1,0 +1,22 @@
+/* Estilo base para el botón de seleccionar */
+.btn-navy {
+    background-color: var(--navy-mentzer); /* Tu azul marino actual */
+    border: 1px solid var(--navy-mentzer);
+    transition: all 0.3s ease;
+    color: white;
+}
+
+/* Efecto Hover */
+.btn-navy:hover {
+    background-color: #00d4ff; /* Un cian vibrante */
+    border-color: #00d4ff;
+    color: #001a33; /* Texto oscuro para que contraste con el cian */
+    transform: translateY(-2px); /* Pequeño levante para dar feedback físico */
+    box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3); /* Resplandor sutil */
+}
+
+/* Efecto al hacer clic (Active) */
+.btn-navy:active {
+    transform: translateY(0);
+    box-shadow: none;
+}

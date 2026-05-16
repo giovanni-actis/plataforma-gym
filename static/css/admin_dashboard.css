@@ -1,0 +1,284 @@
+/* static/css/admin_dashboard.css */
+
+:root {
+    --navy-mentzer: #003366;
+    --navy-hover: #004080;
+    --dark-bg: #121212;
+    --card-bg: #1e1e1e;
+    --text-main: #e0e0e0;
+    --text-muted: #a0a0a0;
+}
+
+.admin-body {
+    background-color: var(--dark-bg);
+    min-height: 100vh;
+    color: var(--text-main);
+}
+
+/* Botones personalizados */
+.btn-navy {
+    background-color: var(--navy-mentzer);
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.btn-navy:hover {
+    background-color: var(--navy-hover);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 51, 102, 0.3);
+}
+
+/* Tarjetas y Contenedores */
+.admin-card {
+    background-color: var(--card-bg);
+    border: none;
+    border-radius: 10px;
+}
+
+.search-input-group .input-group-text,
+.search-input-group .form-control,
+.search-input-group .form-select {
+    background-color: #2a2a2a;
+    border: none;
+    color: white;
+}
+
+.search-input-group .form-control:focus {
+    border: 1px solid var(--navy-mentzer);
+    box-shadow: none;
+}
+
+/* Tabla Estilo Mentzer */
+.table-mentzer {
+    background-color: var(--card-bg);
+    border-collapse: separate;
+    border-spacing: 0 8px;
+}
+
+.table-mentzer thead th {
+    background-color: var(--navy-mentzer);
+    color: white;
+    border: none;
+    padding: 15px;
+}
+
+.table-mentzer tbody tr {
+    background-color: #252525;
+    transition: background-color 0.2s ease;
+}
+
+.table-mentzer tbody tr:hover {
+    background-color: #2d2d2d !important;
+}
+
+.table-mentzer td {
+    padding: 15px;
+    border: none;
+}
+
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    background-color: var(--navy-mentzer);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: bold;
+}
+
+/* Sidebar */
+/* Variables de color basadas en image_e811a7.png y tu pedido */
+:root {
+    --body-color: #121212;
+    --sidebar-color: #1c1c1c;
+    --primary-color: #003366; /* Azul Marino Mentzer */
+    --primary-color-light: #252525;
+    --toggle-color: #FFF;
+    --text-color: #d6d6d6;
+    
+    --tran-03: all 0.2s ease;
+    --tran-04: all 0.3s ease;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    padding: 10px 14px;
+    background: var(--sidebar-color);
+    transition: var(--tran-04);
+    z-index: 100;
+}
+
+.sidebar.close {
+    width: 88px;
+}
+
+/* Reutilización de estilos de la imagen de referencia */
+.sidebar li {
+    height: 50px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.sidebar header .image,
+.sidebar .icon {
+    min-width: 60px;
+    border-radius: 6px;
+}
+
+.sidebar .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.sidebar .text,
+.sidebar .icon {
+    color: var(--text-color);
+    transition: var(--tran-03);
+}
+
+.sidebar .text {
+    font-size: 17px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 1;
+}
+
+.sidebar.close .text {
+    opacity: 0;
+}
+
+/* Header & Toggle Button */
+.sidebar header {
+    position: relative;
+}
+
+.sidebar header .image-text {
+    display: flex;
+    align-items: center;
+}
+
+.sidebar header .logo-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-text .name {
+    margin-top: 2px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+}
+
+.logo-icon {
+    font-size: 28px;
+    color: var(--primary-color);
+}
+
+.sidebar header .toggle {
+    position: absolute;
+    top: 50%;
+    right: -25px;
+    transform: translateY(-50%) rotate(0deg);
+    height: 25px;
+    width: 25px;
+    background-color: var(--primary-color);
+    color: var(--toggle-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    cursor: pointer;
+    transition: var(--tran-03);
+}
+
+.sidebar.close .toggle {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+/* Menus e Interacción */
+.sidebar .menu {
+    margin-top: 40px;
+}
+
+.sidebar li a {
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: var(--tran-03);
+}
+
+.sidebar li a:hover {
+    background-color: var(--primary-color);
+}
+
+.sidebar li a:hover .icon,
+.sidebar li a:hover .text {
+    color: white;
+}
+
+.menu-bar {
+    height: calc(100% - 55px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: scroll;
+}
+.menu-bar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Limpiar espacios por defecto en la lista de navegación */
+.sidebar .menu-links, 
+.sidebar .bottom-content {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Estilo para el Tooltip al pasar el mouse */
+.sidebar.close .nav-link a:hover::after {
+    content: attr(data-tooltip); /* Usaremos un atributo en el HTML */
+    position: absolute;
+    left: 95px; /* Aparece a la derecha del sidebar colapsado */
+    background: var(--navy-mentzer);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    white-space: nowrap;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* Triángulo pequeño del tooltip (opcional) */
+.sidebar.close .nav-link a:hover::before {
+    content: "";
+    position: absolute;
+    left: 88px;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-right: 7px solid var(--navy-mentzer);
+}
+
+/* Asegurar que el tooltip no se vea cuando el sidebar está ABIERTO */
+.sidebar:not(.close) .nav-link a:hover::after,
+.sidebar:not(.close) .nav-link a:hover::before {
+    display: none;
+}

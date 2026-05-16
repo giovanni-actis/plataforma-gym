@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Panel de Control - Gym Mentzer{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/admin_dashboard.css' %}">
+{% endblock %}
+{% block content %}
+<div class="admin-wrapper">
+    
+    <nav class="sidebar close" id="sidebar">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <!-- Icono de marca -->
+                    <i class="fas fa-dumbbell logo-icon"></i>
+                </span>
+
+                <div class="text logo-text">
+                    <span class="name">Gym Mentzer</span>
+                    <span class="profession">Panel de Control</span>
+                </div>
+            </div>
+
+            <i class='fas fa-chevron-right toggle' id="toggle"></i>
+        </header>
+
+        <div class="menu-bar">
+            <div class="menu">
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <!-- Añadimos data-tooltip -->
+                        <a href="{% url 'subscriptions:admin_dashboard' %}" data-tooltip="Dashboard">
+                            <i class="fas fa-home icon"></i>
+                            <span class="text nav-text">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="{% url 'subscriptions:admin_plan_list' %}" data-tooltip="Planes">
+                            <i class="fas fa-id-card icon"></i>
+                            <span class="text nav-text">Planes</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="{% url 'subscriptions:admin_plan_request_dashboard' %}" data-tooltip="Planes">
+                            <i class="fas fa-clipboard-list icon"></i>
+                            <span class="text nav-text">Solicitudes</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="#" data-tooltip="Rutinas">
+                            <i class="fas fa-list-ul icon"></i>
+                            <span class="text nav-text">Rutinas</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="#" data-tooltip="Ejercicios">
+                            <i class="fas fa-running icon"></i>
+                            <span class="text nav-text">Ejercicios</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bottom-content">
+                <li class="">
+                    <a href="#">
+                        <i class="fas fa-sign-out-alt icon"></i>
+                        <span class="text nav-text">Cerrar Sesión</span>
+                    </a>
+                </li>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. CONTENIDO PRINCIPAL -->
+    <main class="main-content">
+        <div class="container-fluid">
+            
+            <!-- Encabezado y Resumen -->
+            <div class="d-md-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="fw-bold mb-0">Gestión de <span style="color: #003366;">Socios</span></h2>
+                    <p class="text-secondary">Administra las membresías y estados de pago.</p>
+                </div>
+                <div class="d-flex gap-2">
+                    <div class="card bg-dark border-0 shadow-sm px-3 py-2 text-center">
+                        <span class="text-secondary small">Total Socios</span>
+                        <span class="fw-bold text-light">{{ subscriptions.count }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Barra de Filtros -->
+            <div class="card border-0 shadow-sm mb-4" style="background-color: #1e1e1e;">
+                <div class="card-body">
+                    <form method="GET" class="row g-3 align-items-end">
+                        <div class="col-md-5">
+                            <label class="form-label text-secondary small">Buscar Cliente</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark border-0 text-secondary"><i class="fas fa-search"></i></span>
+                                <input type="text" name="q" class="form-control bg-dark border-0 text-white" placeholder="Nombre o email..." value="{{ query }}">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label text-secondary small">Estado de Membresía</label>
+                            <select name="status" class="form-select bg-dark border-0 text-white">
+                                <option value="">Todos los estados</option>
+                                <option value="activa" {% if status_filter == 'activa' %}selected{% endif %}>Activa</option>
+                                <option value="inactiva" {% if status_filter == 'inactiva' %}selected{% endif %}>Inactiva</option>
+                                <option value="pendiente" {% if status_filter == 'pendiente' %}selected{% endif %}>Pendiente (Próxima a vencer)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-navy w-100 fw-bold">
+                                <i class="fas fa-filter me-2"></i>Aplicar Filtros
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Tabla de Clientes -->
+            <div class="card border-0 shadow-sm" style="background-color: #1e1e1e;">
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover align-middle mb-0">
+                        <thead style="background-color: #003366; color: white;">
+                            <tr>
+                                <th class="ps-4 py-3">Socio</th>
+                                <th>Plan Actual</th>
+                                <th>Vencimiento</th>
+                                <th>Estado</th>
+                                <th class="text-end pe-4">Acciones Rápidas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for sub in subscriptions %}
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-circle bg-navy d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                            <span class="fw-bold">{{ sub.user.username|slice:":1"|upper }}</span>
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold text-white">{{ sub.user.username }}</div>
+                                            <div class="text-secondary small">{{ sub.user.email }}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{ sub.plan.name|default:"---" }}</td>
+                                <td>
+                                    <span class="{% if sub.days_left <= 3 %}text-warning fw-bold{% endif %}">
+                                        {{ sub.end_date|date:"d M, Y" }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if sub.is_active and sub.days_left > 0 %}
+                                        <span class="badge rounded-pill bg-success px-3">Activa</span>
+                                    {% else %}
+                                        <span class="badge rounded-pill bg-danger px-3">Inactiva</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-end pe-4">
+                                    {% if not sub.is_active or sub.days_left <= 0 %}
+                                    <div class="btn-group">
+                                        <a href="{% url 'update_sub' sub.id 'reactivar' %}" class="btn btn-sm btn-outline-success border-0" title="Reactivar 30 días">
+                                            <i class="fas fa-undo-alt me-1"></i> Reiniciar
+                                        </a>
+                                        <a href="{% url 'update_sub' sub.id 'pendiente' %}" class="btn btn-sm btn-outline-warning border-0" title="Marcar como pendiente">
+                                            <i class="fas fa-clock me-1"></i> Pendiente
+                                        </a>
+                                    </div>
+                                    {% else %}
+                                    <span class="text-muted small italic">Socio al día</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center py-5 text-secondary">
+                                    <i class="fas fa-user-slash d-block mb-3 fa-2x"></i>
+                                    No se encontraron socios con esos filtros.
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div> <!-- /.container-fluid -->
+    </main>
+</div>
+    <script src="{% static 'js/main.js' %}"></script>
+
+{% endblock %}

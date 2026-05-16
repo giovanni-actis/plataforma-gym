@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load account socialaccount %}
+{% load crispy_forms_tags %} <!-- Si instalaste crispy forms -->
+
+{% block title %}Registrarse - GymPro{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-lg border-0" style="background-color: #1e1e1e;">
+            <div class="card-body p-5">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold" style="color: #003366;">Crear Cuenta</h2>
+                    <p class="text-secondary">Únete a la comunidad de GymPro</p>
+                </div>
+
+                <!-- Opción rápida con Google -->
+                <div class="d-grid gap-2 mb-4">
+                    <a href="{% provider_login_url 'google' %}" class="btn btn-outline-light d-flex align-items-center justify-content-center py-2">
+                        <i class="fa-brands fa-google"></i> 
+                        Registrarse con Google
+                    </a>
+                </div>
+
+                <div class="position-relative my-4">
+                    <hr class="text-secondary">
+                    <span class="position-absolute top-50 start-50 translate-middle px-3 bg-dark text-secondary small">O COMPLETA TUS DATOS</span>
+                </div>
+
+                <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+                    {% csrf_token %}
+                    
+                    {{ form|crispy }} <!-- Esto renderiza usuario, email, password y password confirm -->
+
+                    {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                    {% endif %}
+
+                    <div class="d-grid mt-4">
+                        <button class="btn btn-lg text-white" type="submit" style="background-color: #003366;">
+                            Comenzar Entrenamientos
+                        </button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-4">
+                    <p class="small text-secondary">
+                        ¿Ya tienes una cuenta? <a href="{% url 'account_login' %}" class="text-primary text-decoration-none">Inicia sesión</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

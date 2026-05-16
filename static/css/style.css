@@ -1,0 +1,99 @@
+:root {
+    --primary-color: #0d6efd; /* Azul Bootstrap */
+    --bg-dark: #121212;
+    --card-bg: #1e1e1e;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-dark);
+}
+
+.navbar {
+    padding: 1rem 2rem;
+}
+
+.text-primary {
+    color: var(--primary-color) !important;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border: none;
+    font-weight: 600;
+}
+
+/* Tarjetas con estilo moderno */
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid #333;
+    border-radius: 12px;
+    color: white;
+}
+
+/* Efectos de Hover para links */
+.nav-link:hover {
+    color: var(--primary-color) !important;
+    transition: 0.3s;
+}
+
+/* estilos de inputs */
+
+/* Forzar estilos a los inputs generados por Django */
+input[type="text"], 
+input[type="email"], 
+input[type="password"], 
+input[type="number"],
+select, 
+textarea {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #fff;
+    background-color: #2b2b2b; /* Gris oscuro */
+    background-clip: padding-box;
+    border: 1px solid #444;
+    border-radius: 8px;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+input:focus {
+    background-color: #333;
+    color: #fff;
+    border-color: #003366; /* Tu Azul Marino */
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(0, 51, 102, 0.25);
+}
+
+.form-text{
+    color: #fff
+}
+
+/* Estilo para el botón primario Azul Marino */
+.btn-navy {
+    background-color: #003366;
+    color: white;
+}
+
+.btn-navy:hover {
+    background-color: #002244;
+    color: #e0e0e0;
+}
+
+/* Selecciona el contenedor de ayuda del password y sus elementos de lista */
+#id_password1_helptext, 
+#id_password1_helptext ul, 
+#id_password1_helptext li {
+    color: #ffffff !important;
+    list-style-type: disc; /* Asegura que se vean los puntos de la lista */
+}
+
+/* Mejora la legibilidad del texto de ayuda en general para todos los campos */
+.form-text {
+    color: #e0e0e0 !important; /* Un blanco apenas grisáceo para que no canse la vista */
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+}

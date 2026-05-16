@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - GymPro{% endblock %}
+
+{% block content %}
+{% if show_plans_button %}
+<div class="card bg-dark text-white shadow-lg p-4 mb-4 position-relative border-highlight alert alert-dismissible fade show" role="alert">
+    <!-- Botón para cerrar la tarjeta -->
+    <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="alert" aria-label="Close"></button>
+    
+    <div class="card-body p-0">
+        <h3 class="fw-bold">¡Lleva tu entrenamiento al siguiente nivel!</h3>
+        <p class="text-secondary">
+            {% if subscription %}
+                Tu membresía está vencida o inactiva. Renueva para seguir entrenando.
+            {% else %}
+                Aún no tienes una membresía activa. Elige un plan para comenzar.
+            {% endif %}
+        </p>
+        <a href="{% url 'subscriptions:plan_list' %}" class="btn btn-navy btn-lg mt-2 px-4 shadow-sm">
+            <i class="fas fa-rocket me-2"></i>Ver Planes Disponibles
+        </a>
+    </div>
+</div>
+{% endif %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h2 class="fw-bold">Hola, <span style="color: #003366;">{{ user.username }}</span> 👋</h2>
+        <p class="text-secondary">Este es el estado actual de tu actividad en el gym.</p>
+    </div>
+</div>
+
+<!-- Sección de Resumen Dinámico -->
+<div class="row g-4">
+    
+    <!-- Tarjeta: Estado de Membresía -->
+    <div class="col-md-4">
+    <div class="card h-100 shadow-sm border-0 bg-dark text-white">
+        <div class="card-header bg-navy text-white py-3" style="background-color: #003366;">
+            <h5 class="card-title mb-0"><i class="fas fa-id-card me-2"></i>Membresía</h5>
+        </div>
+        <div class="card-body">
+            <!-- Estado de la Suscripción -->
+            <h3 class="mb-2">
+                {% if subscription.is_active and not subscription.is_expired %}
+                    Activa
+                {% else %}
+                    Inactiva
+                {% endif %}
+            </h3>
+
+            {% if subscription %}
+                <!-- Días restantes -->
+                <p class="text-secondary mb-1">
+                    Vence en: 
+                    <span class="text-light">
+                        {% if subscription.days_left > 0 %}
+                            {{ subscription.days_left }} días
+                        {% else %}
+                            Vencida
+                        {% endif %}
+                    </span>
+                </p>
+
+                <!-- Barra de progreso (Basada en 30 días) -->
+                <div class="progress bg-secondary" style="height: 10px;">
+                    <div class="progress-bar" role="progressbar" 
+                         style="width: {{ subscription.days_left|add:"0" }}%; background-color: #003366;" 
+                         aria-valuenow="{{ subscription.days_left }}" aria-valuemin="0" aria-valuemax="30">
+                    </div>
+                </div>
+
+                <!-- Saldo Pendiente (Campo debit) -->
+                {% if subscription.debit > 0 %}
+                    <p class="small mt-2 text-warning">
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        Tienes un saldo pendiente de ${{ subscription.debit }}
+                    </p>
+                {% else %}
+                    <p class="small mt-2 text-success">
+                        <i class="fas fa-check-circle"></i> Al día
+                    </p>
+                {% endif %}
+            {% else %}
+                <p class="text-secondary">No posees una membresía activa actualmente.</p>
+                <a href="{% url 'subscriptions:plan_list' %}" class="btn btn-sm btn-outline-light">Ver planes</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+    <!-- Tarjeta: Próxima Rutina -->
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0 bg-dark text-white">
+            <div class="card-header py-3" style="border-bottom: 2px solid #003366;">
+                <h5 class="card-title mb-0"><i class="fas fa-dumbbell me-2"></i>Hoy te toca</h5>
+            </div>
+            <div class="card-body">
+                <h4>Pecho y Tríceps</h4>
+                <p class="text-secondary">6 ejercicios pendientes para hoy.</p>
+                <a href="#" class="btn btn-outline-primary btn-sm">Ver rutina completa</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tarjeta: Progreso Físico -->
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0 bg-dark text-white">
+            <div class="card-header py-3" style="border-bottom: 2px solid #003366;">
+                <h5 class="card-title mb-0"><i class="fas fa-weight me-2"></i>Tu Peso Actual</h5>
+            </div>
+            <div class="card-body text-center">
+                <h2 class="display-6 fw-bold">85.5 <small class="text-secondary">kg</small></h2>
+                <p class="text-success small mb-0"><i class="fas fa-arrow-down"></i> -1.2kg desde el mes pasado</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Acciones Rápidas con Font Awesome -->
+<div class="row mt-5">
+    <div class="col-md-12">
+        <h4 class="mb-4 border-bottom border-secondary pb-2">Acciones Rápidas</h4>
+        <div class="d-flex flex-wrap gap-3">
+            <button class="btn btn-navy py-3 px-4 shadow">
+                <i class="fas fa-plus-circle d-block mb-2 fa-2x"></i> Registrar Pago
+            </button>
+            <button class="btn btn-outline-light py-3 px-4 border-secondary">
+                <i class="fas fa-running d-block mb-2 fa-2x"></i> Iniciar Entrenamiento
+            </button>
+            <button class="btn btn-outline-light py-3 px-4 border-secondary">
+                <i class="fas fa-history d-block mb-2 fa-2x"></i> Ver Historial
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-fluid py-4 main-content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Planes de <span style="color: var(--primary-color);">Suscripción</span></h2>
+        <a href="{% url 'subscriptions:plan_create' %}" class="btn btn-navy">
+            <i class="fas fa-plus me-2"></i>Nuevo Plan
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-sm" style="background-color: var(--card-bg);">
+        <div class="table-responsive">
+            <table class="table table-dark table-hover align-middle mb-0">
+                <thead style="background-color: var(--primary-color);">
+                    <tr>
+                        <th class="ps-4">Nombre del Plan</th>
+                        <th>Precio</th>
+                        <th>Duración</th>
+                        <th class="text-end pe-4">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for plan in plans %}
+                    <tr>
+                        <td class="ps-4 fw-bold">{{ plan.name }}</td>
+                        <td>${{ plan.price }}</td>
+                        <td>{{ plan.duration_days }} días</td>
+                        <td class="text-end pe-4">
+                            <a href="{% url 'subscriptions:plan_edit' plan.id %}" class="btn btn-sm btn-outline-info border-0">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <!-- Botón que activa el modal -->
+                            <button type="button" class="btn btn-sm btn-outline-danger border-0" 
+                                    data-bs-toggle="modal" data-bs-target="#deleteModal{{ plan.id }}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+
+                    <!-- Modal de confirmación (DENTRO del for para tener el ID, pero fuera del TR) -->
+                    <div class="modal fade" id="deleteModal{{ plan.id }}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content border-0" style="background-color: var(--card-bg); color: white; text-align: left;">
+                                <div class="modal-header border-0">
+                                    <h5 class="modal-title fw-bold">Confirmar Eliminación</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    ¿Estás seguro de que deseas eliminar el plan <strong>{{ plan.name }}</strong>? Esta acción no se puede deshacer.
+                                </div>
+                                <div class="modal-footer border-0">
+                                    <form action="{% url 'subscriptions:plan_delete' plan.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger">Eliminar definitivamente</button>
+                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center py-4 text-muted">No hay planes registrados.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
